@@ -8,7 +8,11 @@ This script generates a DOS batch file to concatenate them together; and for sev
 
 Then each concatenated 'targetname.ts' can be compressed with e.g. Handbrake.
 
-### stay tuned
+### Stay Tuned
 This is work in progress. More coming soon.
 
+## Support Me
 
+If you like this, show it: Send Bitcoin to [15c3a2E7b3TZuzeoYQyBSj7zAZmsBFyom7](http://blockr.io/address/info/15c3a2E7b3TZuzeoYQyBSj7zAZmsBFyom7) - thanks.
+
+![15c3a2E7b3TZuzeoYQyBSj7zAZmsBFyom7](http://blockr.io/api/v1/address/Qr/15c3a2E7b3TZuzeoYQyBSj7zAZmsBFyom7)  
