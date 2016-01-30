@@ -17,7 +17,7 @@ Then each concatenated 'targetname.ts' can be compressed with e.g. Handbrake.
 
 @since: Created on 9 Jan 2016
 
-@version v03
+@version v05
 
 '''
 
@@ -84,7 +84,7 @@ def unchunkFiles(destination=TARGETFOLDER, copyCommand=COMMAND):
     
     return command 
     
-def unchunkSubfolders(source=SOURCEFOLDER, destination=TARGETFOLDER, copyCommand=COMMAND):
+def unchunkSubfolders(source=SOURCEFOLDER, destination=TARGETFOLDER, copyCommand=COMMAND, endWithPause=True, dumbDownPrompt=True):
     """
     change into topfolder
     get all the directories
@@ -112,6 +112,7 @@ def unchunkSubfolders(source=SOURCEFOLDER, destination=TARGETFOLDER, copyCommand
       outfile.write(command + "\n")
       if toScreen: print command
     
+    if dumbDownPrompt: p("prompt $g")
     
     for folder in dirs:
 
@@ -136,8 +137,9 @@ def unchunkSubfolders(source=SOURCEFOLDER, destination=TARGETFOLDER, copyCommand
     p("@echo . If you like this, show it: [BTC] %s - thanks." % DONATION)
     p("@echo .", False)  
     
-    # keep the window open when ready
-    p("pause")    
+    if endWithPause:
+      # keep the window open when ready
+      p("pause")    
     
     # close the written batch file:
     outfile.close()

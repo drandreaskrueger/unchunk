@@ -8,6 +8,15 @@ This script generates a DOS batch file to concatenate them together; and for sev
 
 Then each concatenated 'targetname.ts' can be compressed with e.g. Handbrake.
 
+### NEW: Now with GUI
+
+    pip install gooey
+    python unchunkGooey.py 
+
+If wxPython is not yet installed, see [Chris' instructions](https://github.com/chriskiehl/Gooey#installation-instructions). In Anaconda it is simply:
+
+    conda install wxpython
+
 ### Stay Tuned
 This is work in progress. More coming soon.
 
