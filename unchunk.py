@@ -27,17 +27,21 @@ import os
 # source and destination ... ideally on two different disks:
 
 # raw recordings ("chunks") from Sat-TV-receiver
-SOURCEFOLDER= "J:\pvr"          
+SOURCEFOLDER= "G:\pvr"          
 # Huge files, not FAT or FAT32! Continue there with Handbrake.
-TARGETFOLDER= "C:\DATA-TODO"    
+TARGETFOLDER= "H:\TODO"    
 
+# DOS batch file that is the outcome of this Python script 
+BATFILE="unchunk.bat"
 
+# Please give generously:
 DONATION = "15c3a2E7b3TZuzeoYQyBSj7zAZmsBFyom7"
 
+# COMMAND = "copy /B" # "copy" # only for testing the script (wrongly copies non-binary files)
 COMMAND = "copy /B"
-# COMMAND = "copy" # only for testing the script (wrongly copies non-binary files)
 
-def unchunkFiles():
+
+def unchunkFiles(destination=TARGETFOLDER, copyCommand=COMMAND):
     """
     in the end, such a command is returned:
     copy /b chunk_1.ts+chunk2.ts+chunk3.ts "C:\targetdir\something.ts"
@@ -72,15 +76,15 @@ def unchunkFiles():
     unchunkedName = os.path.splitext( unchunkedName[0] ) [0] + ".ts"
     
     # now create the DOS command for binary copying:
-    command = COMMAND + " "
+    command = copyCommand + " "
     for p in parts:
         command += "chunk_%d.ts+" % p
     command = command[:-1] # remove last plus sign
-    command += ' "' + os.path.join(TARGETFOLDER, unchunkedName) + '"'
+    command += ' "' + os.path.join(destination, unchunkedName) + '"'
     
     return command 
     
-def unchunkSubfolders(topfolder):
+def unchunkSubfolders(source=SOURCEFOLDER, destination=TARGETFOLDER, copyCommand=COMMAND):
     """
     change into topfolder
     get all the directories
@@ -94,14 +98,14 @@ def unchunkSubfolders(topfolder):
     """
     
     # this folder contains all the movie subfolders:
-    os.chdir(topfolder)
+    os.chdir(source)
     
     # get the names of the movie subfolders:
     dirs=[ name for name in os.listdir(".") 
            if os.path.isdir(os.path.join(".", name)) 
           ]
     
-    outfile=open("unchunk.bat","w") # for writing
+    outfile=open(BATFILE,"w") # for writing
     
     def p(command, toScreen=True):
       "print and save the command"
@@ -117,7 +121,7 @@ def unchunkSubfolders(topfolder):
         p(c)
     
         # create copy command
-        c=unchunkFiles()
+        c=unchunkFiles(destination=destination, copyCommand=copyCommand)
         p(c)
 
         # out of folder
@@ -141,6 +145,6 @@ def unchunkSubfolders(topfolder):
 
 if __name__ == "__main__":
   
-    unchunkSubfolders(SOURCEFOLDER)
+    unchunkSubfolders()
     
     
