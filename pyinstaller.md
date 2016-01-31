@@ -14,9 +14,9 @@ It took an hour of fiddling and learning, until I found out that with the given 
 finally generated a working executable.  
 
 ### images missing
-I copied the whole Gooey/gooey/images/ folder, and overwrote those images that I wanted changed. http://icoconvert.com/ was useful for PNG-->ICO conversion of the ``program_icon.ico``.
+I copied the whole Gooey/gooey/images/ folder [into my repo](images), and overwrote those images that I wanted changed. http://icoconvert.com/ was useful for PNG-->ICO conversion of the ``program_icon.ico``.
 
-When running ``unchunkGooey.py`` it worked to use the Gooey parameter 
+When running ``unchunkGooey.py`` it did work to use the Gooey parameter 
 
     @Gooey (image_dir='images')
     
@@ -48,8 +48,9 @@ and then manually override the ``gooey_images`` in ``build.spec``:
     my_images = Tree(os.path.join(os.getcwd(), 'images'), prefix = 'gooey/images')
     gooey_images = my_images 
     
-It is a dirty hack, because now my icons are not shown anymore, when I am starting unchunkGooey.py - but they do get included into the ``unchunk.exe`` binary - great!
+It is a dirty hack, because now my icons are not shown anymore, when I am running ``unchunkGooey.py`` via Python - but the images do get included into the ``unchunk.exe`` binary - great!
 
-Please help me: How to extend the ``build.spec`` in case of ``@Gooey (image_dir='images')``? 
-Thanks.
+Please help me: How to correctly extend the ``build.spec`` in case of ``@Gooey (image_dir='images')``?  Or must the ``image_dir`` path be absolute? But how to collect the images from there?
+ 
+Thanks a lot!
 
