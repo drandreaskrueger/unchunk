@@ -11,8 +11,8 @@ my_images = Tree(os.path.join(os.getcwd(), 'images'), prefix = 'gooey/images')
 gooey_images = my_images 
 ######################################### 
 
-a = Analysis(['unchunkGooey.py'],
-             pathex=['C:\\Anaconda\\Scripts'],
+a = Analysis(['unchunkGooey.py'],              ### !
+             pathex=['C:\\Anaconda\\Scripts'], ### !
              hiddenimports=[],
              hookspath=None,
              runtime_hooks=None,
@@ -30,11 +30,11 @@ exe = EXE(pyz,
           options,
           gooey_languages, # Add them in to collected files
           gooey_images, # Same here.
-          my_images, # fiddling without much success
-          name='unchunk',
+          my_images, # fiddling without much success  ### !
+          name='unchunk',  ### !
           debug=False,
           strip=None,
           upx=True,
-          console=True,
+          console=True,    ### !
           windowed=True,
           icon=os.path.join(my_root, 'images', 'program_icon.ico'))     ### !
