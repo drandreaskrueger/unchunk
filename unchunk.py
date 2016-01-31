@@ -40,6 +40,8 @@ DONATION = "15c3a2E7b3TZuzeoYQyBSj7zAZmsBFyom7"
 # COMMAND = "copy /B" # "copy" # only for testing the script (wrongly copies non-binary files)
 COMMAND = "copy /B"
 
+class UserActionNeeded(Exception):
+  pass
 
 def unchunkFiles(destination=TARGETFOLDER, copyCommand=COMMAND):
     """
@@ -66,12 +68,15 @@ def unchunkFiles(destination=TARGETFOLDER, copyCommand=COMMAND):
     parts.sort()
     
     unchunkedName=[name for name in files if os.path.splitext(name)[1]==".txt"]
-    if len(unchunkedName)!=1: 
+    if len(unchunkedName)!=1:
+        print 
         print "none or several .txt files in this folder:"
         print os.getcwd()
         print unchunkedName
-        print "Exiting. Please put ONE empty file 'targetname.txt' into each folder."
-        exit() 
+        msg="\nPlease put one empty file 'targetname.txt' into each movie subfolder. Exiting for now. \n"
+        print msg
+        raise UserActionNeeded(msg)
+        
         
     unchunkedName = os.path.splitext( unchunkedName[0] ) [0] + ".ts"
     

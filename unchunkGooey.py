@@ -8,9 +8,10 @@ unchunkGooey.py
 
 @since:   Created on 9 Jan 2016
 
-@version  v05
-
 '''
+
+VERSION =                 "v0.10"
+
 
 import unchunk
 
@@ -56,11 +57,19 @@ def gooey_checkParser(parser):
     print "WARNING: These combinations (default= and action=) lead to dead checkboxes:", 
     print dead    
 
-@Gooey (monospace_display=True, default_size=(900, 600), image_dir='images')
+
+# http://chriskiehl.com/article/packaging-gooey-with-pyinstaller/
+import sys
+nonbuffered_stdout = os.fdopen(sys.stdout.fileno(), 'w', 0)
+sys.stdout = nonbuffered_stdout
+
+@Gooey (monospace_display=True, default_size=(900, 600) ) #, image_dir='images')
 def gui():
-  description=("Concatenate Sat-TV recordings (chunk_[0-9].ts), via a DOS batch file that is generated here.\n"
+  description=("(version %s) Concatenate Sat-TV recordings (chunk_[0-9].ts), "
+               "via a DOS batch file that is generated here.\n"
                "For several movies in subfolders. Then each concatenated 'targetname.ts' "
-               "can be compressed with e.g. Handbrake.")  
+               "can be compressed with e.g. Handbrake.")
+  description = description % VERSION
   parser = GooeyParser(description=description)
   
   parser.add_argument("Source", default=unchunk.SOURCEFOLDER, help="Location of subfolders with chunk05.ts files", widget="DirChooser")

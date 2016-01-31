@@ -5,15 +5,51 @@ The steps I took to make the *.exe
 
     pip install pyinstaller
     
-Then I adapted Chris' [build.spec](https://github.com/chriskiehl/Gooey/files/29568/build.spec.txt) into this [build.spec](build.spec), by changing ``unchunkGooey.py`` and and ``pathex`` and ``unchunk``. It took an hour of fiddling and learning, until I found out that without ``console=True`` it would not work. Then 
+Then I adapted Chris' [build.spec](https://github.com/chriskiehl/Gooey/files/29568/build.spec.txt) into this [build.spec](build.spec), by changing ``unchunkGooey.py`` and and ``pathex`` and ``unchunk``, and ``icon=``.   
+
+It took an hour of fiddling and learning, until I found out that with the given ``console=False`` it would not work. Then 
 
     pyinstaller build.spec
     
-finally generated an executable.  
+finally generated a working executable.  
 
-I copied the whole Gooey/gooey/images/ folder, and overwrote those images that I wanted changed.
+### images missing
+I copied the whole Gooey/gooey/images/ folder, and overwrote those images that I wanted changed. http://icoconvert.com/ was useful for PNG-->ICO conversion of the ``program_icon.ico``.
 
- 
+When running ``unchunkGooey.py`` it worked to use the Gooey parameter 
 
-
+    @Gooey (image_dir='images')
     
+But the executable built by pyinstaller then complained with:
+
+    File "site-packages\gooey\gui\image_repository.py", line 35, in patch_images
+    IOError: Unable to find the user supplied directory images
+    
+which is a problem in
+    
+    def patch_images(new_image_dir)
+    
+because there, the current path is ``/dist/`` - and there is no ``images`` folder.
+
+#### Hacked workaround    
+    
+In the end, I decided to remove the 
+
+    @Gooey (image_dir='images')
+    
+and instead pretend to be using the default images, by
+
+    @Gooey ()  
+
+and then manually override the ``gooey_images`` in ``build.spec``:
+
+    import os
+    my_root = os.getcwd()
+    my_images = Tree(os.path.join(os.getcwd(), 'images'), prefix = 'gooey/images')
+    gooey_images = my_images 
+    
+It is a dirty hack, because now my icons are not shown anymore, when I am starting unchunkGooey.py - but they do get included into the ``unchunk.exe`` binary - great!
+
+Please help me: How to extend the ``build.spec`` in case of ``@Gooey (image_dir='images')``? 
+Thanks.
+
