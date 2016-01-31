@@ -6,12 +6,13 @@ unchunkGooey.py
 @license: If you like this, send Bitcoin to 15c3a2E7b3TZuzeoYQyBSj7zAZmsBFyom7 
 @author:  Andreas Krueger (github.com/drandreaskrueger)
 
-@since:   Created on 9 Jan 2016
+@since:   Created on 30 Jan 2016
 
 '''
 
-VERSION =                 "v0.10"
+VERSION =                 "v0.11"
 
+PRODUCTION = False # switches off a few debug logging lines
 
 import unchunk
 
@@ -25,12 +26,24 @@ from gooey  import Gooey, GooeyParser
 # also install wxPython
 # https://github.com/chriskiehl/Gooey#installation-instructions
 
+def gooey_checkParser(parser):
+  """Prints a WARNING if one of the dead checkbox combinations is used
+     See https://github.com/chriskiehl/Gooey/issues/148
+     N.B.: Switch off in production. Just a helper during coding. 
+  """
+  dead=[a.dest  
+        for a in parser.parser._actions 
+        if type(a) in (argparse._StoreFalseAction, argparse._StoreTrueAction)
+        and a.default==a.const]
+  if dead!=[]:
+    print "WARNING: These combinations (default= and action=) lead to dead checkboxes:", 
+    print dead    
+
 
 def gooey_transformArgs(args, parser, printBefore=False, printAfter=False):
   """Returns as dict all args ... exactly as given in args, 
      BUT those which are 'store_false' are inverted.
-     See argparseBoolProblemSolved.py and 
-     https://github.com/chriskiehl/Gooey/issues/148"""
+     See https://github.com/chriskiehl/Gooey/issues/148"""
      
   if printBefore: print "original parsed: ", args._get_kwargs()
   
@@ -44,26 +57,25 @@ def gooey_transformArgs(args, parser, printBefore=False, printAfter=False):
   if printAfter: print "transformed args:", transformedArgs
   return dict(transformedArgs)
 
-def gooey_checkParser(parser):
-  """Prints a WARNING if one of the dead checkbox combinations is used
-     See argparseBoolProblemSolved.py and 
-     https://github.com/chriskiehl/Gooey/issues/148
-  """
-  dead=[a.dest  
-        for a in parser.parser._actions 
-        if type(a) in (argparse._StoreFalseAction, argparse._StoreTrueAction)
-        and a.default==a.const]
-  if dead!=[]:
-    print "WARNING: These combinations (default= and action=) lead to dead checkboxes:", 
-    print dead    
+
+def boxedPrint(text):
+  """Attention seeker"""
+  print "-" * len(text)
+  print text
+  print "-" * len(text)
 
 
+# because of pyInstaller packaging: 
 # http://chriskiehl.com/article/packaging-gooey-with-pyinstaller/
 import sys
 nonbuffered_stdout = os.fdopen(sys.stdout.fileno(), 'w', 0)
 sys.stdout = nonbuffered_stdout
 
-@Gooey (monospace_display=True, default_size=(900, 600) ) #, image_dir='images')
+
+@Gooey (monospace_display=True, 
+        default_size=(900, 600) 
+        ) #, image_dir='images') # see pyinstaller.md why not
+
 def gui():
   description=("(version %s) Concatenate Sat-TV recordings (chunk_[0-9].ts), "
                "via a DOS batch file that is generated here.\n"
@@ -79,17 +91,21 @@ def gui():
   parser.add_argument("-e", "--execute", dest='execute', default=True, action="store_false" , 
                       help="Immediately run the .bat file here.")
   
-  
-  gooey_checkParser(parser)
+  if not PRODUCTION: gooey_checkParser(parser) 
   args=parser.parse_args()
-  
-  tArgs=gooey_transformArgs(args, parser, printBefore=True, printAfter=True)
+
+  boxedPrint("unchunkGooey %s" % VERSION)  
+  tArgs=gooey_transformArgs(args, parser, 
+                            printBefore=not PRODUCTION, printAfter=not PRODUCTION)
   return tArgs
 
+
 def boxedPrint(text):
+  """Attention seeker"""
   print "-" * len(text)
   print text
   print "-" * len(text)
+
 
 def runUnchunk(A):
   
@@ -108,8 +124,12 @@ def runUnchunk(A):
     os.system(batfile)
     
 
+def warningFake(tArgs):
+  if tArgs["fake"]:
+    boxedPrint("Warning: Destination files are not useful. Edit, and run again with 'fake OFF'.")   
+
 if __name__ == "__main__":
   tArgs=gui()
   runUnchunk(tArgs)
-    
+  warningFake(tArgs)
     

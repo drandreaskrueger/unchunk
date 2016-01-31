@@ -12,12 +12,12 @@ for several movies in subfolders, one after the other. A huge time saver.
 
 Then each concatenated 'targetname.ts' can be compressed with e.g. Handbrake.
 
-@license: If you like this, send Bitcoin to 15c3a2E7b3TZuzeoYQyBSj7zAZmsBFyom7 
+@license: If you like this, send Bitcoin to 15c3a2E7b3TZuzeoYQyBSj7zAZmsBFyom7  
 @author: Andreas Krueger (github.com/drandreaskrueger)
 
 @since: Created on 9 Jan 2016
 
-@version v05
+@version v0.10
 
 '''
 

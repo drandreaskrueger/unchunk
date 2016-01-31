@@ -1,0 +1,58 @@
+------------------
+unchunkGooey v0.11
+------------------
+original parsed:  [('Destination', 'c:\\TODO'), ('Source', 'j:\\pvr'), ('execute', False), ('fake', False)]
+transformed args: [('Destination', 'c:\\TODO'), ('Source', 'j:\\pvr'), ('execute', True),  ('fake', True)]
+
+-----------------------------------------------------------------------------------------------------
+Generating the DOS .bat script 'j:\pvr\unchunk.bat' that will concatenate all files per movie folder:
+-----------------------------------------------------------------------------------------------------
+
+prompt $g
+cd 1454187570_192.11362.1.1011.1.11140_5628_4440.ts
+COPY chunk_1.ts+chunk_2.ts+chunk_3.ts+chunk_4.ts+chunk_5.ts+chunk_6.ts+chunk_7.ts+chunk_8.ts "c:\TODO\DireStraits_ZdfKultur-20160130.ts"
+cd ..
+cd 1454193569_192.11494.1.1019.1.10301_5643_6840.ts
+COPY chunk_1.ts+chunk_2.ts+chunk_3.ts+chunk_4.ts+chunk_5.ts+chunk_6.ts+chunk_7.ts+chunk_8.ts+chunk_9.ts "c:\TODO\Challenger_Ard-20160130.ts"
+cd ..
+@echo . Ready.
+@echo . If you like this, show it: [BTC] 15c3a2E7b3TZuzeoYQyBSj7zAZmsBFyom7 - thanks.
+
+---------------------------------------------
+Now immediately execute that DOS .bat script:
+---------------------------------------------
+
+j:\pvr>prompt $g 
+>cd 1454187570_192.11362.1.1011.1.11140_5628_4440.ts 
+>COPY chunk_1.ts+chunk_2.ts+chunk_3.ts+chunk_4.ts+chunk_5.ts+chunk_6.ts+chunk_7.ts+chunk_8.ts "c:\TODO\DireStraits_ZdfKultur-20160130.ts" 
+chunk_1.ts
+chunk_2.ts
+chunk_3.ts
+chunk_4.ts
+chunk_5.ts
+chunk_6.ts
+chunk_7.ts
+chunk_8.ts
+        1 file(s) copied.
+>cd .. 
+>cd 1454193569_192.11494.1.1019.1.10301_5643_6840.ts 
+>COPY chunk_1.ts+chunk_2.ts+chunk_3.ts+chunk_4.ts+chunk_5.ts+chunk_6.ts+chunk_7.ts+chunk_8.ts+chunk_9.ts "c:\TODO\Challenger_Ard-20160130.ts" 
+chunk_1.ts
+chunk_2.ts
+chunk_3.ts
+chunk_4.ts
+chunk_5.ts
+chunk_6.ts
+chunk_7.ts
+chunk_8.ts
+chunk_9.ts
+        1 file(s) copied.
+>cd .. 
+.
+. Ready.
+. If you like this, show it: [BTC] 15c3a2E7b3TZuzeoYQyBSj7zAZmsBFyom7 - thanks.
+.
+
+-------------------------------------------------------------------------------
+Warning: Destination files are not useful. Edit, and run again with 'fake OFF'.
+-------------------------------------------------------------------------------
